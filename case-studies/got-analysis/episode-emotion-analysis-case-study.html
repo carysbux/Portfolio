@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study — GOT Emotion Analysis</title>
+  <link rel="stylesheet" href="../ads-analysis/styles.css">
+  <style>
+    .chart-card {
+      background: #f7f7f8;
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    #target-dropdown {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #d8d8de;
+      background: #ffffff;
+      color: #1a1a1a;
+      min-width: 260px;
+      max-width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    #target-summary {
+      margin: 0 0 0.75rem;
+      color: #5c5c5c;
+      font-size: 0.94rem;
+    }
+
+    #coef-chart,
+    #r2-chart {
+      min-height: 400px;
+    }
+
+    #heatmap-chart {
+      min-height: 720px;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__content">
+        <span class="hero__badge">show-synth</span>
+        <h1 class="hero__title">
+          <span class="hero__title-line">Episode Emotion Analysis —</span>
+        </h1>
+        <p class="hero__description">
+          Sentiment analysis of Game of Thrones synopses to understand emotional tone vs. IMDb ratings,
+          Rotten Tomatoes, Metacritic, U.S. viewership, and runtime.
+        </p>
+        <div class="hero__tags">
+          <span class="hero__tag">Data visualization</span>
+          <span class="hero__tag">NLP &amp; regression</span>
+          <span class="hero__tag">Web dashboard</span>
+          <span class="hero__tag">2026</span>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__image-wrapper" style="aspect-ratio: 4 / 3; padding: 0.5rem;">
+          <div id="hero-chart" style="width: 100%; height: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <article class="case-study">
+    <section class="case-study__section" id="introduction">
+      <h2 class="section__title">Introduction</h2>
+      <div class="section__content">
+        <p>
+          This dashboard explores how emotional tone in episode synopses relates to success metrics.
+          Emotion scores are extracted from text and modeled against ratings and audience data.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="goals">
+      <h2 class="section__title">Goals</h2>
+      <div class="section__content">
+        <ul class="next-steps-list">
+          <li>Identify which emotions correlate with higher ratings across review platforms.</li>
+          <li>Measure how emotional tone relates to U.S. viewership and runtime.</li>
+          <li>Visualize coefficient importance by target variable.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="charts">
+      <h2 class="section__title">Emotion Coefficients by Target Variable</h2>
+      <div class="section__content">
+        <select id="target-dropdown" aria-label="Target variable for coefficients">
+          <option value="imdb">IMDb Rating</option>
+          <option value="viewers">U.S. Viewers (Millions)</option>
+          <option value="rotten">Rotten Tomatoes Rating (Percentage)</option>
+          <option value="metacritic">Metacritic Ratings</option>
+          <option value="runtime">Running Time (Minutes)</option>
+        </select>
+        <p id="target-summary"></p>
+        <div class="chart-card">
+          <div id="coef-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="model-power">
+      <h2 class="section__title">Model R2 Comparison</h2>
+      <div class="section__content">
+        <p>
+          Among targets, emotion scores best predict U.S. viewers in this model set.
+        </p>
+        <div class="chart-card">
+          <div id="r2-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="heatmap">
+      <h2 class="section__title">Emotion Influence Heatmap</h2>
+      <div class="section__content">
+        <div class="chart-card">
+          <div id="heatmap-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="issues-next">
+      <h2 class="section__title">Issues &amp; Next Steps</h2>
+      <div class="section__content">
+        <ul class="next-steps-list">
+          <li>R2 values are modest; emotion features explain part of the variance.</li>
+          <li>Sample size is limited to 73 episodes.</li>
+          <li>Expand to subtitle/dialogue features and test nonlinear models.</li>
+        </ul>
+      </div>
+    </section>
+  </article>
+
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof Plotly === "undefined") return;
+
+      var plotFont = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+      var emotionCols = ["fear", "anger", "anticipation", "trust", "surprise", "positive", "negative", "sadness", "disgust", "joy"];
+      var emotionColors = [
+        "#7b6cd9",
+        "#e2562b",
+        "#f4a93a",
+        "#3fa39a",
+        "#d65fa1",
+        "#4ecdc4",
+        "#5d6b8a",
+        "#7caee6",
+        "#9c5db1",
+        "#f7c948"
+      ];
+      var coefData = {
+        imdb: [7.0188, 6.4699, -0.9309, 6.1385, -11.3985, -10.24, -14.3302, -5.8366, 10.4241, 12.6849],
+        viewers: [37.3602, 25.8833, -5.4251, -22.1653, 84.5166, 24.4722, -60.6798, 83.754, -109.1599, -58.5561],
+        rotten: [21.4722, -167.8732, 123.8662, 43.3958, -209.7301, 21.1811, 31.8347, -158.9945, 268.6355, 26.2122],
+        metacritic: [-15.9487, 13.1679, 1.8348, 2.9287, -63.0039, -21.8573, -5.215, -31.6068, 62.3579, 57.3424],
+        runtime: [201.0478, -119.8703, -172.592, -48.6022, 399.8176, -47.9757, -106.5079, -12.6972, 33.5819, -126.2021]
+      };
+      var targetLabels = {
+        imdb: "IMDb Rating",
+        viewers: "U.S. Viewers (Millions)",
+        rotten: "Rotten Tomatoes Rating (Percentage)",
+        metacritic: "Metacritic Ratings",
+        runtime: "Running Time (Minutes)"
+      };
+      var summaries = {
+        imdb: "Positive emotional tone tends to align with stronger IMDb ratings in this dataset.",
+        viewers: "High-intensity emotional episodes correlate with larger audience counts.",
+        rotten: "Critic-facing scores react strongly to emotional mix and tonal extremes.",
+        metacritic: "Metacritic shifts with emotion balance, especially surprise and disgust.",
+        runtime: "Longer episodes tend to correlate with fear/surprise-heavy synopsis language."
+      };
+
+      var r2Labels = ["IMDb Rating", "U.S. Viewers (Millions)", "Rotten Tomatoes Rating (Percentage)", "Metacritic Ratings", "Running Time (Minutes)"];
+      var r2Values = [0.12722, 0.399981, 0.1559, 0.365818, 0.360754];
+      var heatmapZ = [
+        [7.0188, 37.3602, 21.4722, 15.9487, 201.0478],
+        [6.4699, 25.8833, 167.8732, 13.1679, 119.8703],
+        [0.9309, 5.4251, 123.8662, 1.8348, 172.592],
+        [6.1385, 22.1653, 43.3958, 2.9287, 48.6022],
+        [11.3985, 84.5166, 209.7301, 63.0039, 399.8176],
+        [10.24, 24.4722, 21.1811, 21.8573, 47.9757],
+        [14.3302, 60.6798, 31.8347, 5.215, 106.5079],
+        [5.8366, 83.754, 158.9945, 31.6068, 12.6972],
+        [10.4241, 109.1599, 268.6355, 62.3579, 33.5819],
+        [12.6849, 58.5561, 26.2122, 57.3424, 126.2021]
+      ];
+
+      var r2Colors = ["#7b6cd9", "#e2562b", "#3fa39a", "#d65fa1", "#f4a93a"];
+      Plotly.newPlot("r2-chart", [{ x: r2Labels, y: r2Values, type: "bar", marker: { color: r2Colors } }], {
+        title: { text: "Model predictive power (R2)", font: { family: plotFont, color: "#1a1a1a" } },
+        margin: { t: 56, b: 120 },
+        height: 400,
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "#ffffff",
+        font: { family: plotFont, color: "#1a1a1a" },
+        xaxis: { gridcolor: "#efefef", tickfont: { color: "#3d3d3d" } },
+        yaxis: { gridcolor: "#efefef", tickfont: { color: "#3d3d3d" } }
+      }, { responsive: true });
+
+      Plotly.newPlot("heatmap-chart", [{
+        z: heatmapZ,
+        x: r2Labels,
+        y: emotionCols,
+        type: "heatmap",
+        colorscale: "YlOrBr",
+        hovertemplate: "Target: %{x}<br>Emotion: %{y}<br>|coef|: %{z}<extra></extra>"
+      }], {
+        margin: { l: 100, r: 40, t: 45, b: 95 },
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "#ffffff",
+        font: { family: plotFont, color: "#1a1a1a" }
+      }, { responsive: true });
+
+      function updateCoefChart(slug) {
+        document.getElementById("target-summary").textContent = summaries[slug];
+        Plotly.react("coef-chart", [{
+          x: emotionCols,
+          y: coefData[slug],
+          type: "bar",
+          marker: { color: emotionColors }
+        }], {
+          title: { text: "Regression coefficients — " + targetLabels[slug], font: { family: plotFont, color: "#1a1a1a" } },
+          margin: { t: 56, b: 72 },
+          height: 400,
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "#ffffff",
+          font: { family: plotFont, color: "#1a1a1a" },
+          xaxis: { gridcolor: "#efefef", tickfont: { color: "#3d3d3d" } },
+          yaxis: { gridcolor: "#efefef", tickfont: { color: "#3d3d3d" } }
+        }, { responsive: true });
+      }
+
+      document.getElementById("target-dropdown").addEventListener("change", function () {
+        updateCoefChart(this.value);
+      });
+
+      updateCoefChart("imdb");
+
+      Plotly.newPlot("hero-chart", [{
+        x: emotionCols,
+        y: coefData.imdb.map(function (v) { return Math.abs(v); }),
+        type: "bar",
+        marker: { color: emotionColors }
+      }], {
+        title: { text: "Emotion influence preview", font: { family: plotFont, color: "#1a1a1a", size: 14 } },
+        margin: { t: 40, b: 60, l: 40, r: 12 },
+        paper_bgcolor: "rgba(0,0,0,0)",
+        plot_bgcolor: "#ffffff",
+        font: { family: plotFont, color: "#1a1a1a", size: 11 },
+        xaxis: { tickangle: -35, gridcolor: "#efefef" },
+        yaxis: { gridcolor: "#efefef" }
+      }, { responsive: true, displayModeBar: false });
+    });
+  </script>
+</body>
+</html>

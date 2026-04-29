@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>case studies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+  <main class="hub">
+    <div class="hub__segmented" role="tablist" aria-label="Filter case studies">
+      <button type="button" role="tab" aria-selected="true" data-filter="all">all</button>
+      <button type="button" role="tab" aria-selected="false" data-filter="data">data</button>
+      <button type="button" role="tab" aria-selected="false" data-filter="product">product</button>
+    </div>
+
+    <div class="hub__grid" id="grid">
+      <a class="hub__tile" href="ads-analysis/index.html" data-category="data">
+        <div class="hub__tile-img">
+          <img src="ads-analysis/assets/chart_spend_revenue_bins.png" width="320" height="240" alt="">
+        </div>
+        <span class="hub__label">ads</span>
+      </a>
+      <a class="hub__tile" href="starter-garden/index.html" data-category="product">
+        <div class="hub__tile-img">
+          <img src="starter-garden/assets/hero-website.png" width="320" height="240" alt="">
+        </div>
+        <span class="hub__label">garden</span>
+      </a>
+      <a class="hub__tile" href="case-study-overlay/index.html" data-category="product">
+        <div class="hub__tile-img">
+          <img src="case-study-overlay/assets/hero.png" width="320" height="240" alt="">
+        </div>
+        <span class="hub__label">context</span>
+      </a>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.hub__segmented [role="tab"]');
+      var tiles = document.querySelectorAll('.hub__tile');
+
+      function setFilter(filter) {
+        tiles.forEach(function (tile) {
+          var cat = tile.getAttribute('data-category');
+          var show = filter === 'all' || cat === filter;
+          if (show) {
+            tile.removeAttribute('hidden');
+          } else {
+            tile.setAttribute('hidden', '');
+          }
+        });
+        tabs.forEach(function (tab) {
+          var on = tab.getAttribute('data-filter') === filter;
+          tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          setFilter(tab.getAttribute('data-filter'));
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

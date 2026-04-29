@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study — Global ads performance</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__content">
+        <span class="hero__badge">Ads analysis</span>
+        <h1 class="hero__title">
+          <span class="hero__title-line">Global ads performance —</span>
+        </h1>
+        <p class="hero__description">
+          This project analyzes global ad performance across Google, Meta, and TikTok.
+          Data:
+          <a class="hero__link" href="https://www.kaggle.com/datasets/nudratabbas/global-ads-performance-google-meta-tiktok" target="_blank" rel="noopener noreferrer">Kaggle</a>.
+          The workflow was built in two
+          layers: Jupyter notebooks that clean the export and compute aggregates, and a one-page dashboard that loads
+          those numbers from JSON and renders the charts.
+        </p>
+        <div class="hero__tags">
+          <span class="hero__tag">Jupyter notebooks</span>
+          <span class="hero__tag">JSON pipeline</span>
+          <span class="hero__tag">Web dashboard</span>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__image-wrapper">
+          <img src="assets/chart_spend_revenue_bins.png" width="1400" height="520" alt="Spend vs revenue and revenue per dollar by spend bin, by platform">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <article class="case-study">
+
+    <section class="case-study__section" id="problem">
+      <h2 class="section__title">Problem</h2>
+      <div class="section__content">
+        <p>
+          The dataset stitches together performance from three big ad platforms so you can compare them on something
+          like the same playing field — but the raw export is still a lot of rows and columns, and “which channel is
+          actually winning?” doesn’t answer itself. You need clear cuts: how spend lines up with revenue as budgets scale,
+          where revenue per dollar spent starts to slide, how CPC and CPA differ by platform, and which campaign types
+          carry the best group-level ROAS in each industry.
+        </p>
+        <p>
+          In this slice of the work, TikTok came out looking the strongest commercially: it sits highest on ROAS in most
+          industries in the bar breakdowns, and the spend–revenue curves back up that it’s often the most lucrative place
+          to put incremental budget — not the cheapest on CPA alone, but strong on return for the dollars you put in.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="goal">
+      <h2 class="section__title">Goal</h2>
+      <div class="section__content">
+        <p>
+          Keep a repeatable path from raw extract to cleaned aggregates to a single JSON bundle the dashboard loads at
+          runtime, so the same definitions used in notebooks show up unchanged in the UI.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="data-and-pipeline">
+      <h2 class="section__title">Data &amp; pipeline</h2>
+      <div class="section__content">
+        <p>
+          Raw inputs under <code>data/raw/</code>; cleaned tables under <code>data/processed/</code>. Notebooks in
+          <code>notebooks/</code>:
+        </p>
+        <ul class="notebook-list">
+          <li><code>preprocessing-1.ipynb</code> — cleaning and the processed performance CSV</li>
+          <li><code>spend-v-revenue-3.ipynb</code> — spend vs revenue curves by quantile bin</li>
+          <li><code>platform-efficiency-2.ipynb</code> — average CPC and CPA by platform</li>
+          <li><code>campaign-industry-4.ipynb</code> — best group ROAS per platform × industry (winning campaign type)</li>
+        </ul>
+        <p>
+          The dashboard reads <code>dashboard/data.json</code>, built with <code>python3 scripts/build_dashboard_data.py</code>.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="charts">
+      <h2 class="section__title">Charts</h2>
+      <div class="section__content">
+        <p>Ten quantile bins per platform (q=10).</p>
+
+        <div class="chart-block">
+          <h3>Best group ROAS by industry (per platform)</h3>
+          <p>
+            Group ROAS = <code>sum(revenue) / sum(ad_spend)</code> by platform × industry × campaign type; bars are the
+            winning campaign type per industry, shared y-scale across Google, Meta, and TikTok.
+          </p>
+          <img src="assets/chart_roas_by_platform.png" width="1500" height="450" alt="Bar charts: best group ROAS by industry for Google, Meta, and TikTok">
+        </div>
+
+        <div class="chart-block">
+          <h3>Spend vs revenue and revenue per $1 spend</h3>
+          <p>
+            Bin means of <code>ad_spend</code> vs mean revenue (left) and vs <code>mean_revenue / mean_spend</code> (right);
+            lower curves on the right show saturation.
+          </p>
+          <img src="assets/chart_spend_revenue_bins.png" width="1400" height="520" alt="Line charts: spend vs revenue and revenue per dollar by bin for each platform">
+        </div>
+
+        <div class="chart-block">
+          <h3>Avg CPC vs avg CPA</h3>
+          <p>One point per platform from processed aggregates.</p>
+          <img src="assets/chart_cpc_cpa_scatter.png" width="650" height="500" alt="Scatter of average CPC vs average CPA by platform">
+        </div>
+
+        <div class="chart-block">
+          <h3>Average CPC &amp; CPA by platform</h3>
+          <p>Platforms sorted by average CPA (high to low). Dark bars = Avg CPC, warm bars = Avg CPA.</p>
+          <img src="assets/chart_cpc_cpa_bars.png" width="800" height="450" alt="Grouped bars: average CPC and CPA by platform">
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="next-steps">
+      <h2 class="section__title">Next steps</h2>
+      <div class="section__content">
+        <ul class="next-steps-list">
+          <li>Filters for industry and date range on top of the aggregates.</li>
+          <li>Confidence bands or richer models on the spend–revenue curves.</li>
+          <li>Rebuild <code>data.json</code> automatically when processed CSVs change.</li>
+        </ul>
+      </div>
+    </section>
+
+  </article>
+</body>
+</html>

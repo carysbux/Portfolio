@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study — Starter Garden</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__content">
+        <span class="hero__badge">Starter Garden</span>
+        <h1 class="hero__title">
+          <span class="hero__title-line">Starter Garden —</span>
+        </h1>
+        <p class="hero__description">
+          A server-rendered beginner gardening site with JSON-backed pages, slideshow and gallery partials, and plant
+          cards filtered per topic (indoors, outdoors, vegetables) — so content can grow without rewriting route logic.
+        </p>
+        <div class="hero__tags">
+          <span class="hero__tag">Express</span>
+          <span class="hero__tag">Handlebars</span>
+          <span class="hero__tag">JSON content</span>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <a class="hero__image-link" href="https://carysbux.github.io/plants/" target="_blank" rel="noopener noreferrer" aria-label="Open Starter Garden (live site)">
+          <div class="hero__image-wrapper">
+            <img src="assets/hero-website.png" width="1400" height="900" alt="Screenshot of the Starter Garden website — Indoor Plants page">
+            <span class="hero__image-placeholder">Website screenshot</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <article class="case-study">
+
+    <section class="case-study__section" id="problem">
+      <h2 class="section__title">Problem</h2>
+      <div class="section__content">
+        <p>
+          New gardeners need short, trustworthy recommendations — not endless generic articles. The site also had to
+          stay easy to extend: more plants, new sections, and refreshed imagery should not require duplicating HTML
+          across every page.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="goal">
+      <h2 class="section__title">Goal</h2>
+      <div class="section__content">
+        <p>
+          Ship a small full-stack style experience with Express and Handlebars where copy, navigation, slideshow slides,
+          gallery items, and plant records live in JSON. A single dynamic route should resolve each topic page and attach
+          the right slides and plant cards by a shared page key.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="solution">
+      <h2 class="section__title">Solution</h2>
+      <div class="section__content">
+        <p>
+          The app loads <code>navigation</code>, <code>slideshow</code>, <code>gallery</code>, <code>pages</code>, and
+          <code>plants</code> at startup. <code>GET /</code> renders the home carousel from slides flagged
+          <code>home: true</code>; <code>GET /page/:page</code> looks up metadata in <code>pages.json</code>, filters
+          slides and plants by that slug, and passes everything into one layout template with reusable partials.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="features">
+      <h2 class="section__title">Features &amp; Benefits</h2>
+      <div class="section__content">
+        <div class="table-wrapper">
+          <table class="features-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Function</th>
+                <th>Benefit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>JSON-driven pages</td>
+                <td>Titles and descriptions live in <code>pages.json</code> keyed by route slug.</td>
+                <td>Update copy or add sections with minimal template edits.</td>
+              </tr>
+              <tr>
+                <td>Filtered slideshow</td>
+                <td>Each slide declares <code>home</code> and/or <code>page</code> so the carousel matches the current topic.</td>
+                <td>Home and topic pages stay visually on-message without duplicate templates.</td>
+              </tr>
+              <tr>
+                <td>Plant grid partial</td>
+                <td>Plant objects include <code>page</code>, name, description, and image path; Handlebars loops render Bootstrap cards.</td>
+                <td>Consistent card UI while the dataset grows.</td>
+              </tr>
+              <tr>
+                <td>Static assets</td>
+                <td><code>express.static</code> serves CSS, JS, and images under <code>public/</code> (with a <code>/public</code> alias).</td>
+                <td>Simple hosting story and predictable image URLs in JSON.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="technical-challenges">
+      <h2 class="section__title">Technical Challenges</h2>
+      <div class="section__content">
+        <ul class="challenges-list">
+          <li>Keeping slideshow <code>page</code> values aligned with route slugs (<code>indoors</code>, <code>outdoors</code>, <code>veggies</code>, <code>about</code>) so filters return the intended slides.</li>
+          <li>Normalizing plant <code>page</code> keys when matching the URL parameter (trim and case) to avoid empty grids from data drift.</li>
+          <li>Image paths in JSON must stay consistent with how static files are exposed (<code>public/...</code> prefixes).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-study__section" id="next-steps">
+      <h2 class="section__title">Next Steps</h2>
+      <div class="section__content">
+        <ul class="next-steps-list">
+          <li>Deploy to a small host (e.g. Render, Railway) with a production <code>PORT</code> and clear run instructions for whoever operates it.</li>
+          <li>Add search or tag filters on plant-heavy pages so beginners can narrow choices quickly.</li>
+          <li>Optional admin or build step to validate JSON (missing images, orphan slugs) before deploy.</li>
+        </ul>
+      </div>
+    </section>
+
+  </article>
+</body>
+</html>
