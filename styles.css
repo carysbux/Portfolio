@@ -175,7 +175,8 @@ body {
 
 .panel {
   animation: fade-in 0.35s ease;
-  min-height: 36rem;
+  height: 36rem;
+  overflow-y: auto;
 }
 
 .panel[hidden] {
@@ -414,13 +415,13 @@ body {
 
 #section-home {
   position: relative;
-  min-height: 36rem;
+  height: 36rem;
 }
 
 #section-projects,
 #section-about,
 #section-contact {
-  min-height: 36rem;
+  height: 36rem;
 }
 
 .watermark {
