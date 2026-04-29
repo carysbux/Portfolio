@@ -93,7 +93,7 @@ body {
 
 .logo {
   font-family: var(--font-sans);
-  font-size: 1.65rem;
+  font-size: clamp(1.85rem, 1.6vw, 2.2rem);
   font-weight: 700;
   text-decoration: none;
   color: var(--ink);
@@ -115,11 +115,11 @@ body {
 .nav-tile {
   appearance: none;
   font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-size: clamp(0.75rem, 0.72vw, 0.86rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: 0.45rem 0.65rem 0.45rem 0.75rem;
+  padding: 0.56rem 0.78rem 0.56rem 0.9rem;
   border: 1.5px solid var(--ink);
   background: var(--paper);
   cursor: pointer;
@@ -227,6 +227,9 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 8;
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.84);
 }
 
 #section-home .panel-title {
@@ -409,11 +412,11 @@ body {
 .collage-item--n9             { width: 14%; top: 2%; right: 6%; transform: rotate(-3deg); }
 .collage-item--n10            { width: 14%; top: 30%; right: 2%; transform: rotate(5deg); }
 
-.collage-item--soft-roundrect { width: 14%; bottom: 3%; right: 6%; transform: rotate(4deg); }
-.collage-item--soft-polaroid  { width: 14%; bottom: 4%; right: 20%; transform: rotate(-4deg); }
-.collage-item--n8             { width: 14%; bottom: 3%; left: 34%; transform: rotate(3deg); }
-.collage-item--n11            { width: 14%; bottom: 4%; left: 20%; transform: rotate(-5deg); }
-.collage-item--soft-square    { width: 14%; bottom: 3%; left: 6%; transform: rotate(4deg); }
+.collage-item--soft-roundrect { width: 13.5%; bottom: 1%; right: 7%; transform: rotate(4deg); }
+.collage-item--soft-polaroid  { width: 13.5%; bottom: 0%; right: 23%; transform: rotate(-4deg); }
+.collage-item--n8             { width: 13.5%; bottom: 0%; left: 41%; transform: rotate(3deg); }
+.collage-item--n11            { width: 13.5%; bottom: 1%; left: 23%; transform: rotate(-5deg); }
+.collage-item--soft-square    { width: 13.5%; bottom: 1%; left: 7%; transform: rotate(4deg); }
 .collage-item--soft-landscape { width: 14%; top: 30%; left: 2%; transform: rotate(-5deg); }
 
 #section-home {
