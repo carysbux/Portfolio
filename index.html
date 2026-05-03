@@ -4,170 +4,111 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carys · Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=DM+Sans:ital,opsz@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="app-window" role="application">
-    <header class="window-chrome">
-      <p class="site-tag">portfolio · web design</p>
-    </header>
+  <div class="app-shell">
+    <nav class="site-nav" aria-label="Main navigation">
+      <button type="button" class="nav-logo-button" data-scroll="section-home" aria-label="Back to home top">
+        <img src="assets/name-logo.png" alt="" class="nav-logo-image" width="140" height="70" decoding="async" />
+      </button>
+      <button type="button" class="nav-ghost" data-scroll="about-anchor">About Me</button>
+      <button type="button" class="nav-ghost" data-scroll="work-anchor">Projects</button>
+    </nav>
 
-    <div class="layout">
-      <aside class="sidebar" aria-label="Primary">
-        <a href="#" class="logo" id="logo-home">Carys</a>
-        <nav class="nav-primary" aria-label="Main navigation">
-          <button type="button" class="nav-tile is-active" data-section="home" aria-current="page">
-            <span class="nav-indicator" aria-hidden="true"></span>
-            Home
-          </button>
-          <button type="button" class="nav-tile" data-section="projects">
-            <span class="nav-indicator" aria-hidden="true"></span>
-            Projects
-          </button>
-          <button type="button" class="nav-tile" data-section="about">
-            <span class="nav-indicator" aria-hidden="true"></span>
-            About Me
-          </button>
-          <button type="button" class="nav-tile" data-section="contact">
-            <span class="nav-indicator" aria-hidden="true"></span>
-            Contact
-          </button>
-        </nav>
-      </aside>
+    <main id="main" class="main">
+      <section id="section-home" class="panel panel--home is-visible" aria-labelledby="home-heading">
+        <h1 id="home-heading" class="visually-hidden">Carys Portfolio</h1>
+        <div class="home-stack">
+          <div class="hero-intro hero-stage">
+            <span class="hero-script">Hi, my name's</span>
+            <img
+              class="hero-name-logo"
+              src="assets/name-logo.png"
+              alt="Carys"
+              width="200"
+              height="80"
+              decoding="async"
+            />
+            <span class="hero-script">and I'm a</span>
+            <span class="role-pill" aria-live="polite" aria-atomic="true">
+              <img
+                class="role-pill__img"
+                src="assets/designer-word-selected/ios-selection-green_designer-5b4cee32-fe48-47a4-a339-61d080173105.png"
+                alt="designer"
+                width="180"
+                height="46"
+                decoding="async"
+              />
+            </span>
+          </div>
 
-      <main id="main" class="main">
-        <section id="section-home" class="panel is-visible" aria-labelledby="home-heading">
-          <div class="panel-head">
-            <h1 id="home-heading" class="panel-title">Hi, I’m Carys</h1>
-            <p class="panel-lede">Welcome to my portfolio.</p>
-          </div>
-          <div class="collage" aria-hidden="false">
-            <figure class="collage-item collage-item--soft-circle collage-item--n1">
-              <img src="images/IMG_4455.JPG" alt="Portrait outdoors in a red shirt" loading="lazy" width="800" height="600" />
-            </figure>
-            <figure class="collage-item collage-item--soft-portrait collage-item--n2">
-              <img src="images/IMG_2062.JPG" alt="Personal photo" loading="lazy" width="600" height="900" />
-            </figure>
-            <figure class="collage-item collage-item--soft-landscape collage-item--n3">
-              <img src="images/100_0408.JPG" alt="Colorful city mural with high-rise buildings" loading="lazy" width="900" height="600" />
-            </figure>
-            <figure class="collage-item collage-item--soft-square collage-item--n4">
-              <img src="images/solo copy.jpeg" alt="Holding a first place certificate at a university event" loading="lazy" width="700" height="900" />
-            </figure>
-            <figure class="collage-item collage-item--soft-roundrect collage-item--n5">
-              <img src="images/100_0496.JPG" alt="Elizabeth Tower and Palace of Westminster in London" loading="lazy" width="600" height="800" />
-            </figure>
-            <figure class="collage-item collage-item--soft-polaroid collage-item--n6">
-              <img src="images/IMG_0966.jpeg" alt="Personal photo" loading="lazy" width="700" height="1000" />
-            </figure>
-            <figure class="collage-item collage-item--n7">
-              <img src="images/IMG_9198.jpeg" alt="Personal photo" loading="lazy" width="700" height="900" />
-            </figure>
-            <figure class="collage-item collage-item--n8">
-              <img src="images/IMG_0825.jpeg" alt="Colorful skeins of yarn arranged in a display" loading="lazy" width="900" height="600" />
-            </figure>
-            <figure class="collage-item collage-item--n9">
-              <img src="images/100_0594.JPG" alt="Blue ocean view from a balcony railing" loading="lazy" width="700" height="900" />
-            </figure>
-            <figure class="collage-item collage-item--n10">
-              <img src="images/IMG_0264.jpeg" alt="Street scene with architecture and greenery" loading="lazy" width="700" height="900" />
-            </figure>
-            <figure class="collage-item collage-item--n11">
-              <img src="images/IMG_9904.jpeg" alt="Personal photo" loading="lazy" width="700" height="900" />
-            </figure>
-            <figure class="collage-item collage-item--mag1">
-              <img src="images/CourtCoutureMag_page1.png" alt="Court Couture Magazine cover" loading="lazy" />
+          <div id="about-anchor" class="split-row split-row--winner reveal-on-scroll" aria-labelledby="winner-heading">
+            <h2 id="winner-heading" class="split-row__label">I'm a <a href="case-studies/green-guard/index.html">winner</a>, too</h2>
+            <figure class="split-row__figure split-row__figure--winner">
+              <img
+                src="images/solo copy.jpeg"
+                alt="Carys holding a first place certificate."
+                width="700"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              />
             </figure>
           </div>
-        </section>
 
-        <section id="section-projects" class="panel" hidden aria-labelledby="projects-heading">
-          <div class="panel-head">
-            <h1 id="projects-heading" class="panel-title">Projects</h1>
-            <p class="panel-lede">Tap a case study to open it.</p>
-          </div>
-          <div class="project-cards">
-            <a class="ios-card ios-card--featured" href="case-studies/green-guard/index.html" data-from="projects" aria-label="Open Green Guard case study">
-              <div class="ios-card-inner">
-                <div class="ios-card-thumb ios-card-thumb--5" aria-hidden="true"></div>
-                <span class="ios-card-label">green guard</span>
-                <span class="ios-card-meta">hackathon project</span>
-              </div>
-            </a>
-            <a class="ios-card" href="case-studies/ads-analysis/index.html" data-from="projects" aria-label="Open ads analysis case study">
-              <div class="ios-card-inner">
-                <div class="ios-card-thumb ios-card-thumb--1" aria-hidden="true"></div>
-                <span class="ios-card-label">ads analysis</span>
-                <span class="ios-card-meta">data case study</span>
-              </div>
-            </a>
-            <a class="ios-card" href="case-studies/starter-garden/index.html" data-from="projects" aria-label="Open starter garden case study">
-              <div class="ios-card-inner">
-                <div class="ios-card-thumb ios-card-thumb--2" aria-hidden="true"></div>
-                <span class="ios-card-label">starter garden</span>
-                <span class="ios-card-meta">product case study</span>
-              </div>
-            </a>
-            <a class="ios-card" href="case-studies/case-study-overlay/index.html" data-from="projects" aria-label="Open context overlay case study">
-              <div class="ios-card-inner">
-                <div class="ios-card-thumb ios-card-thumb--3" aria-hidden="true"></div>
-                <span class="ios-card-label">context overlay</span>
-                <span class="ios-card-meta">product case study</span>
-              </div>
-            </a>
-            <a class="ios-card" href="case-studies/got-analysis/episode-emotion-analysis-case-study.html" data-from="projects" aria-label="Open GOT emotion analysis case study">
-              <div class="ios-card-inner">
-                <div class="ios-card-thumb ios-card-thumb--4" aria-hidden="true"></div>
-                <span class="ios-card-label">GOT analysis</span>
-                <span class="ios-card-meta">data case study</span>
-              </div>
-            </a>
-          </div>
-        </section>
-
-        <section id="section-about" class="panel" hidden aria-labelledby="about-heading">
-          <div class="panel-head">
-            <h2 id="about-heading" class="panel-title">About Me</h2>
-          </div>
-          <div class="about-grid">
-            <figure class="about-photo about-photo--main">
-              <img src="images/IMG_5887.png" alt="Carys in graduation attire by the water" loading="lazy" width="768" height="1024" />
+          <div class="split-row split-row--skills reveal-on-scroll" aria-labelledby="skills-heading">
+            <h2 id="skills-heading" class="split-row__label">And I've got skills</h2>
+            <figure class="split-row__figure">
+              <img
+                src="assets/tech-skills.png"
+                alt="Open tin collage: name tag for Carys Bernard, B.S.C. Interactive Media, University of Miami '26, with photo, coding languages HTML CSS JavaScript Python, and design tools Illustrator, InDesign, Photoshop, Figma."
+                width="900"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              />
             </figure>
-            <div class="about-copy">
-              <p>I'm graduating from the University of Miami with a degree in Interactive Media and I'm passionate about experimental design for websites and apps.</p>
-              <p>I'm seeking opportunities in Front-End Engineering and Product Design where I can begin my career building impactful, well-considered solutions alongside intentional, forward-thinking teams.</p>
+          </div>
+
+          <div id="work-anchor" class="see-work reveal-on-scroll">
+            <h2 class="see-work__title">My Work</h2>
+          </div>
+        </div>
+        <div class="project-cards reveal-on-scroll">
+          <a class="ios-card ios-card--featured" href="case-studies/green-guard/index.html" aria-label="Open Green Guard case study">
+            <div class="ios-card-inner">
+              <div class="ios-card-thumb ios-card-thumb--5" aria-hidden="true"></div>
+              <span class="ios-card-label">Green Guard</span>
+              <span class="ios-card-meta">Hackathon Project</span>
             </div>
-            <figure class="about-photo about-photo--award">
-              <img src="images/IMG_4523.png" alt="Handmade brown knitted mittens on a table" loading="lazy" width="768" height="1024" />
-            </figure>
-            <p class="about-copy about-copy--secondary">I’m a creative who likes reading, fiber arts, and collecting moments with photos.</p>
-          </div>
-        </section>
-
-        <section id="section-contact" class="panel" hidden aria-labelledby="contact-heading">
-          <div class="panel-head">
-            <h2 id="contact-heading" class="panel-title">Contact</h2>
-            <p class="panel-lede">Say hello — collaborations welcome.</p>
-          </div>
-          <div class="contact-block">
-            <a class="contact-line" href="mailto:carysbernard@gmail.com">carysbernard@gmail.com</a>
-            <ul class="contact-links">
-              <li><a href="https://www.linkedin.com/in/carysbernard/" rel="noopener noreferrer">LinkedIn</a></li>
-              <li><a href="https://github.com/carysbux" rel="noopener noreferrer">GitHub</a></li>
-            </ul>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <footer class="window-footer">
-      <span>portfolio</span>
-    </footer>
+          </a>
+          <a class="ios-card" href="case-studies/ads-analysis/index.html" aria-label="Open ads analysis case study">
+            <div class="ios-card-inner">
+              <div class="ios-card-thumb ios-card-thumb--1" aria-hidden="true"></div>
+              <span class="ios-card-label">Ads Analysis</span>
+              <span class="ios-card-meta">Data Case Study</span>
+            </div>
+          </a>
+          <a class="ios-card" href="case-studies/starter-garden/index.html" aria-label="Open starter garden case study">
+            <div class="ios-card-inner">
+              <div class="ios-card-thumb ios-card-thumb--2" aria-hidden="true"></div>
+              <span class="ios-card-label">Starter Garden</span>
+              <span class="ios-card-meta">Product Case Study</span>
+            </div>
+          </a>
+          <a class="ios-card" href="case-studies/case-study-overlay/index.html" aria-label="Open context overlay case study">
+            <div class="ios-card-inner">
+              <div class="ios-card-thumb ios-card-thumb--3" aria-hidden="true"></div>
+              <span class="ios-card-label">Context Overlay</span>
+              <span class="ios-card-meta">Product Case Study</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
   </div>
 
   <script src="main.js"></script>
