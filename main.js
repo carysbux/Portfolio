@@ -70,7 +70,7 @@
     emitWave(right, 90, 240, 360, 80);
   };
 
-  const playWinnerConfetti = () => {
+  const playWinnerConfetti = (yNudge = 0.03, fixedY = null) => {
     if (winnerConfettiPlayed) return;
 
     let origin = { x: 0.5, y: 0.72 };
@@ -79,7 +79,7 @@
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       origin = {
         x: 0.5,
-        y: Math.min(0.95, Math.max(0.1, y + 0.08)),
+        y: Math.min(0.95, Math.max(0.1, fixedY ?? y + yNudge)),
       };
     }
 
@@ -93,7 +93,7 @@
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          playWinnerConfetti();
+          playWinnerConfetti(0, 0.46);
           winnerObserver.unobserve(entry.target);
         });
       },
@@ -118,7 +118,7 @@
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       origin = {
         x: 0.5,
-        y: Math.min(0.95, Math.max(0.1, y + 0.08)),
+        y: Math.min(0.95, Math.max(0.1, y + 0.03)),
       };
       launchLocalConfetti(origin);
     });
