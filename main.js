@@ -1,5 +1,11 @@
 (function () {
   document.documentElement.classList.add("js-enabled");
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+  const scrollToTop = () => window.scrollTo(0, 0);
+  window.addEventListener("load", scrollToTop);
+  window.addEventListener("pageshow", scrollToTop);
 
   const scrollButtons = document.querySelectorAll("[data-scroll]");
   scrollButtons.forEach((button) => {
@@ -10,6 +16,113 @@
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
+
+  const winnerButton = document.querySelector("[data-confetti-link]");
+  let winnerConfettiPlayed = false;
+  const launchLocalConfetti = (origin) => {
+    const colors = ["#ff4f81", "#ffd166", "#7bd88f", "#66d9ef", "#b892ff"];
+    const emitWave = (waveOrigin, particles, distanceMin, distanceRange, delayMs = 0) => {
+      window.setTimeout(() => {
+        for (let i = 0; i < particles; i += 1) {
+          const piece = document.createElement("span");
+          const size = Math.random() * 12 + 8;
+          piece.style.position = "fixed";
+          piece.style.left = `${waveOrigin.x * window.innerWidth}px`;
+          piece.style.top = `${waveOrigin.y * window.innerHeight}px`;
+          piece.style.width = `${size}px`;
+          piece.style.height = `${size * 0.6}px`;
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.pointerEvents = "none";
+          piece.style.zIndex = "9999";
+          piece.style.borderRadius = "1px";
+          document.body.appendChild(piece);
+
+          const angle = Math.random() * Math.PI * 2;
+          const distance = distanceMin + Math.random() * distanceRange;
+          const driftX = Math.cos(angle) * distance;
+          const driftY = Math.sin(angle) * distance + 220;
+          const rotate = (Math.random() - 0.5) * 1000;
+          const duration = 1600 + Math.random() * 900;
+
+          piece.animate(
+            [
+              { transform: "translate(0, 0) rotate(0deg)", opacity: 1 },
+              { transform: `translate(${driftX}px, ${driftY}px) rotate(${rotate}deg)`, opacity: 0 },
+            ],
+            {
+              duration,
+              easing: "cubic-bezier(0.18, 0.72, 0.2, 1)",
+              fill: "forwards",
+            }
+          );
+
+          window.setTimeout(() => piece.remove(), duration + 40);
+        }
+      }, delayMs);
+    };
+
+    const core = origin;
+    const left = { x: Math.max(0.12, core.x - 0.16), y: core.y };
+    const right = { x: Math.min(0.88, core.x + 0.16), y: core.y };
+
+    emitWave(core, 170, 260, 420, 0);
+    emitWave(left, 90, 240, 360, 80);
+    emitWave(right, 90, 240, 360, 80);
+  };
+
+  const playWinnerConfetti = () => {
+    if (winnerConfettiPlayed) return;
+
+    let origin = { x: 0.5, y: 0.72 };
+    if (winnerButton) {
+      const rect = winnerButton.getBoundingClientRect();
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+      origin = {
+        x: 0.5,
+        y: Math.min(0.95, Math.max(0.1, y + 0.08)),
+      };
+    }
+
+    winnerConfettiPlayed = true;
+    launchLocalConfetti(origin);
+  };
+
+  const winnerSection = document.getElementById("about-anchor");
+  if (winnerSection && "IntersectionObserver" in window) {
+    const winnerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          playWinnerConfetti();
+          winnerObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.5 }
+    );
+    winnerObserver.observe(winnerSection);
+  }
+
+  if (winnerButton) {
+    winnerButton.addEventListener("click", () => {
+      const href = winnerButton.getAttribute("data-confetti-link");
+      playWinnerConfetti();
+
+      window.setTimeout(() => {
+        if (href) window.location.href = href;
+      }, 340);
+    });
+
+    winnerButton.addEventListener("mouseenter", () => {
+      let origin = { x: 0.5, y: 0.72 };
+      const rect = winnerButton.getBoundingClientRect();
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+      origin = {
+        x: 0.5,
+        y: Math.min(0.95, Math.max(0.1, y + 0.08)),
+      };
+      launchLocalConfetti(origin);
+    });
+  }
 
   const revealItems = document.querySelectorAll(".reveal-on-scroll");
   if (revealItems.length > 0) {
@@ -92,5 +205,22 @@
         }, 220);
       }, 160);
     }, 1800);
+  }
+
+  const loadMoreButton = document.getElementById("load-more-case-studies");
+  const showLessButton = document.getElementById("show-less-case-studies");
+  const projectCards = document.querySelector(".project-cards");
+  if (loadMoreButton && showLessButton && projectCards) {
+    loadMoreButton.addEventListener("click", () => {
+      projectCards.classList.add("is-expanded");
+      loadMoreButton.style.display = "none";
+      showLessButton.style.display = "inline-flex";
+    });
+
+    showLessButton.addEventListener("click", () => {
+      projectCards.classList.remove("is-expanded");
+      showLessButton.style.display = "none";
+      loadMoreButton.style.display = "inline-flex";
+    });
   }
 })();

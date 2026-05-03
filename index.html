@@ -4,49 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carys · Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="app-shell">
-    <nav class="site-nav" aria-label="Main navigation">
-      <button type="button" class="nav-logo-button" data-scroll="section-home" aria-label="Back to home top">
-        <img src="assets/name-logo.png" alt="" class="nav-logo-image" width="140" height="70" decoding="async" />
-      </button>
-      <button type="button" class="nav-ghost" data-scroll="about-anchor">About Me</button>
-      <button type="button" class="nav-ghost" data-scroll="work-anchor">Projects</button>
-    </nav>
-
     <main id="main" class="main">
       <section id="section-home" class="panel panel--home is-visible" aria-labelledby="home-heading">
         <h1 id="home-heading" class="visually-hidden">Carys Portfolio</h1>
         <div class="home-stack">
           <div class="hero-intro hero-stage">
-            <span class="hero-script">Hi, my name's</span>
             <img
-              class="hero-name-logo"
+              class="hero-name-logo hero-name-logo--top"
               src="assets/name-logo.png"
               alt="Carys"
               width="200"
               height="80"
               decoding="async"
             />
-            <span class="hero-script">and I'm a</span>
-            <span class="role-pill" aria-live="polite" aria-atomic="true">
-              <img
-                class="role-pill__img"
-                src="assets/designer-word-selected/ios-selection-green_designer-5b4cee32-fe48-47a4-a339-61d080173105.png"
-                alt="designer"
-                width="180"
-                height="46"
-                decoding="async"
-              />
-            </span>
+            <div class="hero-line" aria-live="polite" aria-atomic="true">
+              <span class="hero-title">Product &amp; Visual</span>
+              <span class="role-pill">
+                <img
+                  class="role-pill__img"
+                  src="assets/designer-word-selected/ios-selection-green_designer-5b4cee32-fe48-47a4-a339-61d080173105.png"
+                  alt="designer"
+                  width="180"
+                  height="46"
+                  decoding="async"
+                />
+              </span>
+            </div>
           </div>
 
           <div id="about-anchor" class="split-row split-row--winner reveal-on-scroll" aria-labelledby="winner-heading">
-            <h2 id="winner-heading" class="split-row__label">I'm a <a href="case-studies/green-guard/index.html">winner</a>, too</h2>
+            <h2 id="winner-heading" class="split-row__label">
+              I'm a
+              <button
+                type="button"
+                class="confetti-winner-button"
+                data-confetti-link="case-studies/green-guard/index.html"
+                aria-label="Open winner case study"
+              >
+                winner
+              </button>
+            </h2>
             <figure class="split-row__figure split-row__figure--winner">
               <img
                 src="images/solo copy.jpeg"
@@ -59,56 +65,101 @@
             </figure>
           </div>
 
-          <div class="split-row split-row--skills reveal-on-scroll" aria-labelledby="skills-heading">
-            <h2 id="skills-heading" class="split-row__label">And I've got skills</h2>
-            <figure class="split-row__figure">
-              <img
-                src="assets/tech-skills.png"
-                alt="Open tin collage: name tag for Carys Bernard, B.S.C. Interactive Media, University of Miami '26, with photo, coding languages HTML CSS JavaScript Python, and design tools Illustrator, InDesign, Photoshop, Figma."
-                width="900"
-                height="900"
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-          </div>
+          <section class="offer-section reveal-on-scroll" aria-label="What I offer animation">
+            <div class="offer-visual" aria-hidden="true">
+              <img class="offer-visual__layer offer-visual__layer--default" src="assets/offer-default.svg" alt="" decoding="async" />
+              <img class="offer-visual__layer offer-visual__layer--group" src="assets/offer-group-1.svg" alt="" decoding="async" />
+            </div>
+          </section>
 
           <div id="work-anchor" class="see-work reveal-on-scroll">
-            <h2 class="see-work__title">My Work</h2>
+            <h2 class="see-work__title">Design in action</h2>
+          <p class="see-work__subtitle">Projects &amp; case studies</p>
           </div>
         </div>
         <div class="project-cards reveal-on-scroll">
-          <a class="ios-card ios-card--featured" href="case-studies/green-guard/index.html" aria-label="Open Green Guard case study">
+          <a class="ios-card" href="case-studies/green-guard/index.html" aria-label="Open Green Guard case study">
             <div class="ios-card-inner">
               <div class="ios-card-thumb ios-card-thumb--5" aria-hidden="true"></div>
-              <span class="ios-card-label">Green Guard</span>
-              <span class="ios-card-meta">Hackathon Project</span>
+              <h3 class="ios-card-label">GreenGuard</h3>
+              <p class="ios-card-desc">A product concept and prototype focused on helping users track sustainable choices and build greener habits.</p>
+              <div class="ios-card-foot">
+                <span class="ios-card-meta">Product Design</span>
+                <span class="ios-card-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </a>
           <a class="ios-card" href="case-studies/ads-analysis/index.html" aria-label="Open ads analysis case study">
             <div class="ios-card-inner">
               <div class="ios-card-thumb ios-card-thumb--1" aria-hidden="true"></div>
-              <span class="ios-card-label">Ads Analysis</span>
-              <span class="ios-card-meta">Data Case Study</span>
+              <h3 class="ios-card-label">Ads Analysis</h3>
+              <p class="ios-card-desc">A data-driven study breaking down ad spend and revenue patterns to surface clearer performance decisions.</p>
+              <div class="ios-card-foot">
+                <span class="ios-card-meta">Data Analysis</span>
+                <span class="ios-card-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </a>
           <a class="ios-card" href="case-studies/starter-garden/index.html" aria-label="Open starter garden case study">
             <div class="ios-card-inner">
               <div class="ios-card-thumb ios-card-thumb--2" aria-hidden="true"></div>
-              <span class="ios-card-label">Starter Garden</span>
-              <span class="ios-card-meta">Product Case Study</span>
+              <h3 class="ios-card-label">Starter Garden</h3>
+              <p class="ios-card-desc">An interactive product experience designed to guide first-time plant owners through confident setup and care.</p>
+              <div class="ios-card-foot">
+                <span class="ios-card-meta">Product Design</span>
+                <span class="ios-card-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </a>
           <a class="ios-card" href="case-studies/case-study-overlay/index.html" aria-label="Open context overlay case study">
             <div class="ios-card-inner">
               <div class="ios-card-thumb ios-card-thumb--3" aria-hidden="true"></div>
-              <span class="ios-card-label">Context Overlay</span>
-              <span class="ios-card-meta">Product Case Study</span>
+              <h3 class="ios-card-label">Context Overlay</h3>
+              <p class="ios-card-desc">A UX case study exploring an overlay pattern that improves in-flow context without interrupting user tasks.</p>
+              <div class="ios-card-foot">
+                <span class="ios-card-meta">Visual Design</span>
+                <span class="ios-card-arrow" aria-hidden="true">→</span>
+              </div>
+            </div>
+          </a>
+          <a class="ios-card ios-card--extra" href="case-studies/ads-analysis/index.html" aria-label="Open got analysis case study">
+            <div class="ios-card-inner">
+              <div class="ios-card-thumb ios-card-thumb--1" aria-hidden="true"></div>
+              <h3 class="ios-card-label">GOT Analysis</h3>
+              <p class="ios-card-desc">A focused dashboard case study translating complex metrics into clear trends teams can act on quickly.</p>
+              <div class="ios-card-foot">
+                <span class="ios-card-meta">Data Analysis</span>
+                <span class="ios-card-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </a>
         </div>
+      <div class="load-more-wrap reveal-on-scroll">
+        <button type="button" class="load-more-btn" id="load-more-case-studies">Show More</button>
+        <button type="button" class="load-more-btn load-more-btn--less" id="show-less-case-studies">Show Less</button>
+      </div>
+      <section class="about-me reveal-on-scroll" aria-labelledby="about-me-heading">
+        <h2 id="about-me-heading" class="about-me__title">Behind the computer</h2>
+        <p class="about-me__copy">
+          Outside of design, I love to knit, garden, rock climb, and spend time by the water.
+          These hobbies keep me creative, grounded, and always curious. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur.
+        </p>
+        <div class="about-me__photos" aria-hidden="true">
+          <img class="about-photo about-photo--left" src="assets/about-me/left.png" alt="" decoding="async" />
+          <img class="about-photo about-photo--center" src="assets/about-me/center.png" alt="" decoding="async" />
+          <img class="about-photo about-photo--right" src="assets/about-me/right.png" alt="" decoding="async" />
+        </div>
+      </section>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <img src="assets/name-logo.png" alt="Carys" class="site-footer__logo" width="220" height="88" decoding="async" />
+    </footer>
   </div>
 
   <script src="main.js"></script>
